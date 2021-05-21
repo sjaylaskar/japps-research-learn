@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 
 /**
- * The array util.
+ * The array utility.
  *
  * @author Subhajoy Laskar
  * @version $Revision: $
