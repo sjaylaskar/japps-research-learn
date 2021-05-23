@@ -77,11 +77,16 @@ public final class DuplicateSubtreesFinder {
             .append(")").toString();
 
         final Integer subtreeCount = subtreeCountMap.get(treeNodeStr);
-        if (subtreeCount != null && subtreeCount == 1) {
-            duplicateSubtreeRoots.add(node);
+        if (subtreeCount != null) {
+            if (subtreeCount == 1) {
+                duplicateSubtreeRoots.add(node);
+            }
+            if (subtreeCount != 2) {
+                subtreeCountMap.put(treeNodeStr, subtreeCount + 1);
+            }
+        } else {
+            subtreeCountMap.put(treeNodeStr, 1);
         }
-
-        subtreeCountMap.put(treeNodeStr, (subtreeCount != null) ? subtreeCount + 1 : 1);
 
         return treeNodeStr;
     }
