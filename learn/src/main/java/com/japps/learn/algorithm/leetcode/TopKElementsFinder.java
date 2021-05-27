@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Random;
 import java.util.TreeSet;
 
 import com.japps.learn.util.ArrayUtil;
@@ -27,17 +28,44 @@ public final class TopKElementsFinder {
      * @param args the arguments
      */
     public static void main(final String[] args) {
+        System.out.println("============================topKFrequentByMap========================================");
         ArrayUtil.print(topKFrequentByMap(new int[]{1, 2, 1, 3, 1, 2, 4}, 2));
         ArrayUtil.print(topKFrequentByMap(new int[]{1, 2}, 2));
         ArrayUtil.print(topKFrequentByMap(new int[]{1}, 1));
+        System.out.println("=====================================================================================");
 
+        System.out.println("============================topKFrequentByTree========================================");
         ArrayUtil.print(topKFrequentByTree(new int[]{1, 2, 1, 3, 1, 2, 4}, 2));
         ArrayUtil.print(topKFrequentByTree(new int[]{1, 2}, 2));
         ArrayUtil.print(topKFrequentByTree(new int[]{1}, 1));
+        System.out.println("=====================================================================================");
 
+        System.out.println("============================topKFrequentByPriorityQueueMaxHeap========================================");
         ArrayUtil.print(topKFrequentByPriorityQueueMaxHeap(new int[]{1, 2, 1, 3, 1, 2, 4}, 2));
         ArrayUtil.print(topKFrequentByPriorityQueueMaxHeap(new int[]{1, 2}, 2));
         ArrayUtil.print(topKFrequentByPriorityQueueMaxHeap(new int[]{1}, 1));
+        System.out.println("=====================================================================================");
+
+        System.out.println("============================quickSelectTopKFrequentsFinder========================================");
+        final QuickSelectTopKFrequentsFinder quickSelectTopKFrequentsFinder = new QuickSelectTopKFrequentsFinder();
+        ArrayUtil.print(quickSelectTopKFrequentsFinder.determineTopKFrequents(new int[]{1, 2, 1, 3, 1, 2, 4}, 2));
+        ArrayUtil.print(quickSelectTopKFrequentsFinder.determineTopKFrequents(new int[]{1, 2}, 2));
+        ArrayUtil.print(quickSelectTopKFrequentsFinder.determineTopKFrequents(new int[]{1}, 1));
+        System.out.println("=====================================================================================");
+    }
+
+    /**
+     * Top K frequent.
+     *
+     * @param nums the nums
+     * @param k the k
+     * @return the int[]
+     */
+    private static int[] topKFrequent(final int[] nums, final int k) {
+        //return topKFrequentByMap(nums, k);
+        //return topKFrequentByTree(nums, k);
+        //return topKFrequentByPriorityQueueMaxHeap(nums, k);
+        return new QuickSelectTopKFrequentsFinder().determineTopKFrequents(nums, k);
     }
 
     /**
@@ -172,5 +200,126 @@ public final class TopKElementsFinder {
         }
 
         return topKFrequentElements;
+    }
+
+    /**
+     * The top K frequents finder by quick select.
+     *
+     * @author Subhajoy Laskar
+     * @version 1.0 $ Revision: $
+     */
+    private static final class QuickSelectTopKFrequentsFinder {
+
+        /** The unique elements. */
+        private int[] uniqueElements;
+
+        /** The frequency map. */
+        private Map<Integer, Integer> frequencyMap;
+
+        /**
+         * Determines the top K frequents.
+         *
+         * @param nums the nums
+         * @param k the k
+         * @return the int[]
+         */
+        int[] determineTopKFrequents(final int[] nums, final int k) {
+            fillFrequencyMap(nums);
+
+            fillUniqueElements();
+
+            quickSelect(0, uniqueElements.length - 1, uniqueElements.length - k);
+
+            return Arrays.copyOfRange(uniqueElements, uniqueElements.length - k, uniqueElements.length);
+        }
+
+        /**
+         * Fill frequency map.
+         *
+         * @param nums the nums
+         */
+        private void fillFrequencyMap(final int[] nums) {
+
+            frequencyMap = new HashMap<>();
+
+            for (final int num : nums) {
+                frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+            }
+
+        }
+
+        /**
+         * Fill unique elements.
+         */
+        private void fillUniqueElements() {
+            uniqueElements = new int[frequencyMap.size()];
+
+            int index = 0;
+            for (final int num : frequencyMap.keySet()) {
+                uniqueElements[index++] = num;
+            }
+        }
+
+        /**
+         * Quick select.
+         *
+         * @param left the left
+         * @param right the right
+         * @param nMinusK the n minus K = length - k of the unique elements array
+         */
+        void quickSelect(final int left, final int right, final int nMinusK) {
+
+            if (left == right) {
+                return;
+            }
+
+            final int pivotIndex = partition(left, right, left + new Random().nextInt(right - left));
+
+            if (nMinusK == pivotIndex) {
+                return;
+            } else if (nMinusK < pivotIndex) {
+                quickSelect(left, pivotIndex - 1, nMinusK);
+            } else if (nMinusK > pivotIndex) {
+                quickSelect(pivotIndex + 1, right, nMinusK);
+            }
+        }
+
+        /**
+         * Partition.
+         *
+         * @param left the left
+         * @param right the right
+         * @param pivotIndex the pivot index
+         * @return the int
+         */
+        private int partition(final int left, final int right, final int pivotIndex) {
+            final int pivotFrequency = frequencyMap.get(uniqueElements[pivotIndex]);
+
+            swap(pivotIndex, right);
+
+            int partitionIndex = left;
+
+            for (int i = left; i <= right; i++) {
+                if (frequencyMap.get(uniqueElements[i]) < pivotFrequency) {
+                    swap(partitionIndex++, i);
+                }
+            }
+
+            swap(partitionIndex, right);
+
+            return partitionIndex;
+        }
+
+        /**
+         * Swap.
+         *
+         * @param index1 the index 1
+         * @param index2 the index 2
+         */
+        private void swap(final int index1, final int index2) {
+            final int temp = uniqueElements[index1];
+            uniqueElements[index1] = uniqueElements[index2];
+            uniqueElements[index2] = temp;
+        }
     }
 }
