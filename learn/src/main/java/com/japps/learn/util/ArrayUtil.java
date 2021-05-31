@@ -75,4 +75,19 @@ public final class ArrayUtil {
         }
         System.out.println("}");
     }
+
+    /**
+     * Swap.
+     *
+     * @param nums the nums
+     * @param index1 the index 1
+     * @param index2 the index 2
+     */
+    public static void swap(final int[] nums, final int index1, final int index2) {
+        if (index1 != index2) {
+            final int temp = nums[index1];
+            nums[index1] = nums[index2];
+            nums[index2] = temp;
+        }
+    }
 }

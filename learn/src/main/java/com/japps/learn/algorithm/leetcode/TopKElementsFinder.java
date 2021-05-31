@@ -6,10 +6,13 @@
 package com.japps.learn.algorithm.leetcode;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import com.japps.learn.util.ArrayUtil;
@@ -62,6 +65,9 @@ public final class TopKElementsFinder {
      * @return the int[]
      */
     private static int[] topKFrequent(final int[] nums, final int k) {
+        if (k == 0 || nums.length == 0) {
+            return new int[] {};
+        }
         //return topKFrequentByMap(nums, k);
         //return topKFrequentByTree(nums, k);
         //return topKFrequentByPriorityQueueMaxHeap(nums, k);
@@ -317,9 +323,7 @@ public final class TopKElementsFinder {
          * @param index2 the index 2
          */
         private void swap(final int index1, final int index2) {
-            final int temp = uniqueElements[index1];
-            uniqueElements[index1] = uniqueElements[index2];
-            uniqueElements[index2] = temp;
+            ArrayUtil.swap(uniqueElements, index1, index2);
         }
     }
 }
