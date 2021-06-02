@@ -6,7 +6,7 @@
 package com.japps.learn.algorithm.leetcode;
 
 /**
- * The LinkedListCycleDetector.
+ * The linked list cycle detector using <a href="https://en.wikipedia.org/wiki/Cycle_detection"><i>Floyd's Cycle Finding Algorithm</i></a>.
  *
  * @author Subhajoy Laskar
  * @version $Revision: $
