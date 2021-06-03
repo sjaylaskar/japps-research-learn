@@ -32,8 +32,16 @@ public final class LinkedListReverser {
 
         //System.out.println(build(nodeValues));
 
-        System.out.println(reverse(SinglyLinkedListBuilder.build(nodeValues)));
+        final SinglyLinkedList singlyLinkedList = SinglyLinkedListBuilder.build(nodeValues);
+        System.out.println(singlyLinkedList);
+        System.out.println(reverse(singlyLinkedList));
 
+        System.out.println("====================================");
+
+        final ListNode head = new ListNode(1);
+        head.next(1).next(2).next(4).next(3).next(5);
+        System.out.println(head);
+        System.out.println(reverse(head));
     }
 
     /**
@@ -52,6 +60,88 @@ public final class LinkedListReverser {
             curr.next = prev;
             prev = curr;
             curr = tempNext;
+        }
+
+        return prev;
+    }
+
+    /**
+     * The list node.
+     *
+     * @author Subhajoy Laskar
+     * @version 1.0 $ Revision: $
+     */
+    private static class ListNode {
+
+        /** The val. */
+        int val;
+
+        /** The next. */
+        ListNode next;
+
+        /**
+         * Instantiates a new list node.
+         */
+        ListNode() {
+
+        }
+
+        /**
+         * Instantiates a new list node.
+         *
+         * @param x the x
+         */
+        ListNode(final int x) {
+
+            val = x;
+        }
+
+        /**
+         * Next.
+         *
+         * @param x the x
+         * @return the list node
+         */
+        ListNode next(final int x) {
+
+            next = new ListNode(x);
+            return next;
+        }
+
+        /**
+         * To string.
+         *
+         * @return the string
+         */
+        @Override
+        public String toString() {
+
+            final StringBuilder listString = new StringBuilder();
+            ListNode node = this;
+            while (node != null) {
+                listString.append(node.val).append("->");
+                node = node.next;
+            }
+
+            return listString.append("null").toString();
+        }
+    }
+
+    /**
+     * Reverse.
+     *
+     * @param head the head
+     * @return the list node
+     */
+    private static ListNode reverse(final ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+
+        while (curr != null) {
+            final ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
         }
 
         return prev;
