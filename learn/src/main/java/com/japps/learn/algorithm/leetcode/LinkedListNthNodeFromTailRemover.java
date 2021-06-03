@@ -51,6 +51,11 @@ public final class LinkedListNthNodeFromTailRemover {
         System.out.println(removeNthFromEnd(null, 3));
         System.out.println("==================================");
 
+        final ListNode head6 = new ListNode(1);
+        head6.next(2).next(3).next(4).next(5);
+        System.out.println(head6);
+        System.out.println(removeNthFromEnd(head6, 5));
+        System.out.println("==================================");
     }
 
     /**
