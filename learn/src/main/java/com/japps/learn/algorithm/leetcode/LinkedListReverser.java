@@ -42,6 +42,11 @@ public final class LinkedListReverser {
         head.next(1).next(2).next(4).next(3).next(5);
         System.out.println(head);
         System.out.println(reverse(head));
+        System.out.println("====================================");
+        final ListNode head2 = new ListNode(4);
+        head2.next(5);
+        System.out.println(head2);
+        System.out.println(reverse(head2));
     }
 
     /**
