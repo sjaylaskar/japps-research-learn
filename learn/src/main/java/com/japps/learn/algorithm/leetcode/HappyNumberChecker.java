@@ -6,7 +6,6 @@
 package com.japps.learn.algorithm.leetcode;
 
 import java.util.HashSet;
-import java.util.stream.IntStream;
 
 import com.japps.learn.util.ScannerProvider;
 
@@ -24,7 +23,7 @@ public final class HappyNumberChecker {
      * @param args the arguments
      */
     public static void main(final String[] args) {
-        final ScannerProvider scannerProvider = ScannerProvider.newInstance();
+        final ScannerProvider scannerProvider = ScannerProvider.instance();
 
         final int n = scannerProvider.scanner().nextInt();
 

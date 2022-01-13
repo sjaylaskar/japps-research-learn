@@ -22,6 +22,8 @@ public final class ScannerProvider {
     /** The is closed. */
     private boolean isClosed;
 
+    private static ScannerProvider scannerProvider;
+
     /**
      * Instantiates a new scanner provider.
      */
@@ -45,9 +47,13 @@ public final class ScannerProvider {
      *
      * @return the scanner provider
      */
-    public static ScannerProvider newInstance() {
+    public static ScannerProvider instance() {
 
-        return new ScannerProvider();
+        if (scannerProvider == null) {
+            scannerProvider = new ScannerProvider();
+        }
+
+        return scannerProvider;
     }
 
     /**
@@ -57,11 +63,7 @@ public final class ScannerProvider {
      */
     public Scanner scanner() {
 
-        if (isClosed) {
-            throw new IllegalStateException("The scanner is already closed.");
-        }
-
-        if (scanner == null) {
+        if (isClosed || scanner == null) {
             scanner = newScanner();
         }
 
