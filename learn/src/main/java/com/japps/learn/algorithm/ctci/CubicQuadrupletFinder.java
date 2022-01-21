@@ -5,13 +5,10 @@
  */
 package com.japps.learn.algorithm.ctci;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import static com.japps.learn.util.NumberUtil.cube;
+import static com.japps.learn.util.NumberUtil.isPairSumEqual;
 
 import com.japps.learn.util.AbstractMeasurable;
-import com.japps.learn.util.Pair;
 import com.japps.learn.util.ScannerProvider;
 
 
@@ -48,20 +45,26 @@ public final class CubicQuadrupletFinder extends AbstractMeasurable {
         try {
             final int n = ScannerProvider.instance().scanner().nextInt();
 
-            INSTANCE.startTimer();
-            compute1(n);
-            INSTANCE.stopTimer();
-            INSTANCE.timeElapsed();
+            /*
+             * INSTANCE.startTimer();
+             * compute1(n);
+             * INSTANCE.stopTimer();
+             * INSTANCE.timeElapsed();
+             */
 
-            INSTANCE.startTimer();
-            compute2(n);
-            INSTANCE.stopTimer();
-            INSTANCE.timeElapsed();
 
-            INSTANCE.startTimer();
-            compute3(n);
-            INSTANCE.stopTimer();
-            INSTANCE.timeElapsed();
+              INSTANCE.startTimer();
+              compute2(n);
+              INSTANCE.stopTimer();
+              INSTANCE.timeElapsed();
+
+              /*
+               * INSTANCE.startTimer();
+               * compute3(n);
+               * INSTANCE.stopTimer();
+               * INSTANCE.timeElapsed();
+               */
+
         } finally {
             ScannerProvider.instance().close();
         }
@@ -79,7 +82,11 @@ public final class CubicQuadrupletFinder extends AbstractMeasurable {
             for (int b = 1; b <= n; b++) {
                 for (int c = 1; c <= n; c++) {
                     for (int d = 1; d <= n; d++) {
-                        if (Math.pow(a, 3) + Math.pow(b, 3) == Math.pow(c, 3) + Math.pow(d, 3)) {
+                        final long aCube = cube(a);
+                        final long bCube = cube(b);
+                        final long cCube = cube(c);
+                        final long dCube = cube(d);
+                        if (isPairSumEqual(aCube, bCube, cCube, dCube)) {
                             System.out.println(a + ", " + b + ", " + c + ", " + d);
                             ++count;
                         }
@@ -101,13 +108,14 @@ public final class CubicQuadrupletFinder extends AbstractMeasurable {
         for (int a = 1; a <= n; a++) {
             for (int b = 1; b <= n; b++) {
                 for (int c = 1; c <= n; c++) {
-                    final int aCube = a * a * a;
-                    final int bCube = b * b * b;
-                    final int cCube = c * c * c;
-                    final int d = (int) (Math.pow((aCube + bCube - cCube), 1 / 3));
-                    final int dCube = d * d * d;
-                    if (aCube + bCube == cCube + dCube) {
-                        System.out.println(a + ", " + b + ", " + c + ", " + d);
+                    final long aCube = cube(a);
+                    final long bCube = cube(b);
+                    final long cCube = cube(c);
+                    final long dCubeByEqn = aCube + bCube - cCube;
+                    final long dByEqn = (long) Math.pow(dCubeByEqn, 1 / 3);
+                    final long dCubeByPow = cube(dByEqn);
+                    if (isPairSumEqual(aCube, bCube, cCube, dCubeByPow)) {
+                        System.out.println(a + ", " + b + ", " + c + ", " + dByEqn);
                         ++count;
                     }
                 }
@@ -123,32 +131,32 @@ public final class CubicQuadrupletFinder extends AbstractMeasurable {
      */
     private static void compute3(final int n) {
 
-        final Map<Integer, List<Pair<Integer, Integer>>> cubicPairs = new HashMap<>();
-        for (int a = 1; a <= n; a++) {
-            for (int b = 1; b <= n; b++) {
-                final int aCube = a * a * a;
-                final int bCube = b * b * b;
-                final int pairCubeSum = aCube + bCube;
-                cubicPairs.putIfAbsent(pairCubeSum, new ArrayList<>());
-                cubicPairs.get(pairCubeSum).add(new Pair<>(a, b));
-            }
-        }
-
-        cubicPairs
-            .values()
-            .stream()
-            .filter(value -> value.size() > 1)
-            .forEach(value -> {
-                value.stream().forEach(pair -> {
-                    System.out.print(pair + ", ");
-                });
-                System.out.println();
-            });
-
-        System.out.println("Number of values: "
-            + cubicPairs
-                .values()
-                .stream()
-                .filter(value -> value.size() > 1).count());
+        /*
+         * final Map<Long, Map<Pair, List<Pair<Integer, Integer>>>> cubicPairs = new HashMap<>();
+         * for (int a = 1; a <= n; a++) {
+         * for (int b = 1; b <= n; b++) {
+         * final long aCube = cube(a);
+         * final long bCube = cube(b);
+         * final long pairCubeSum = aCube + bCube;
+         * cubicPairs.putIfAbsent(pairCubeSum, new ArrayList<>());
+         * cubicPairs.get(pairCubeSum).add(new Pair<>(a, b));
+         * cubicPairs.get(pairCubeSum).add(new Pair<>(b, a));
+         * }
+         * }
+         * cubicPairs
+         * .values()
+         * .stream()
+         * .forEach(value -> {
+         * value.stream().forEach(pair -> {
+         * System.out.print(pair + ", ");
+         * });
+         * System.out.println();
+         * });
+         * System.out.println("Number of values: "
+         * + cubicPairs
+         * .values()
+         * .stream()
+         * .filter(value -> value.size() > 1).count());
+         */
     }
 }
