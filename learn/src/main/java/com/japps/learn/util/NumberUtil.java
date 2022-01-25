@@ -64,4 +64,8 @@ public final class NumberUtil {
     public static boolean isPairSumEqual(final long p, final long q, final long r, final long s) {
         return (p + q) == (r + s);
     }
+
+    public static long sum(final long a, final long b) {
+        return a + b;
+    }
 }

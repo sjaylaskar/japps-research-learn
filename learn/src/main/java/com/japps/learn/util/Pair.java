@@ -16,7 +16,7 @@ import java.util.Objects;
  * @param <U> the generic type
  * @param <V> the value type
  */
-public final class Pair<U, V> {
+public class Pair<U, V> {
 
     /** The first. */
     private final U first;

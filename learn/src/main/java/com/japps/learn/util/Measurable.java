@@ -12,7 +12,7 @@ package com.japps.learn.util;
  * @author Subhajoy Laskar
  * @version $Revision: $
  */
-public interface Measurable {
+public interface Measurable extends Loggable {
 
     /**
      * Gets the timer util.
@@ -44,7 +44,7 @@ public interface Measurable {
     default long timeElapsed() {
         final long timeElapsed = getTimerUtil().time();
         getTimerUtil().reset();
-        System.out.println("Time elapsed: " + timeElapsed + " ms.");
+        println("Time elapsed: " + timeElapsed + " ms.");
         return timeElapsed;
     }
 

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 
 /**
  * The bi consumer hash map test.
@@ -29,6 +31,8 @@ public final class SparsedBiConsumerHashMapTest {
 
         SparsedDataCodeConsumer.load();
         processDatas(datas);
+
+        printIntKeys();
     }
 
     /**
@@ -57,7 +61,18 @@ public final class SparsedBiConsumerHashMapTest {
 
             System.out.println(user1);
             System.out.println(user2);
+
         }
+    }
+
+    private static void printIntKeys() {
+        SparsedDataCodeConsumer.map()
+        .keySet()
+        .stream()
+        .filter(NumberUtils::isCreatable)
+        .map(Integer::parseInt)
+        .filter(val -> val >= 0)
+        .forEach(System.out::println);
     }
 
     /**
