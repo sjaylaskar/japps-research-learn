@@ -5,6 +5,8 @@
  */
 package com.japps.learn.util;
 
+import static com.japps.learn.util.LogUtil.printLn;
+
 import java.util.Arrays;
 
 
@@ -40,12 +42,12 @@ public final class ArrayUtil {
      * @param nums the nums
      */
     public static void print(final int ...nums) {
-        System.out.println();
-        System.out.print("{");
+        printLn();
+        LogUtil.print("{");
         for (int i = 0; i < nums.length; i++) {
-             System.out.print((i == nums.length - 1) ? nums[i] : nums[i] + ", ");
+             LogUtil.print((i == nums.length - 1) ? nums[i] : nums[i] + ", ");
         }
-        System.out.println("}");
+        printLn("}");
     }
 
     /**
@@ -54,12 +56,12 @@ public final class ArrayUtil {
      * @param nums the nums
      */
     public static void print(final byte ...nums) {
-        System.out.println();
-        System.out.print("{");
+        printLn();
+        LogUtil.print("{");
         for (int i = 0; i < nums.length; i++) {
-             System.out.print((i == nums.length - 1) ? nums[i] : nums[i] + ", ");
+             LogUtil.print((i == nums.length - 1) ? nums[i] : nums[i] + ", ");
         }
-        System.out.println("}");
+        printLn("}");
     }
 
     /**
@@ -68,12 +70,12 @@ public final class ArrayUtil {
      * @param strings the strings
      */
     public static void print(final String ...strings) {
-        System.out.println();
-        System.out.print("{");
+        printLn();
+        LogUtil.print("{");
         for (int i = 0; i < strings.length; i++) {
-             System.out.print((i == strings.length - 1) ? strings[i] : strings[i] + ", ");
+             LogUtil.print((i == strings.length - 1) ? strings[i] : strings[i] + ", ");
         }
-        System.out.println("}");
+        printLn("}");
     }
 
     /**
@@ -88,6 +90,17 @@ public final class ArrayUtil {
             final int temp = nums[index1];
             nums[index1] = nums[index2];
             nums[index2] = temp;
+        }
+    }
+
+    /**
+     * Prints the array.
+     *
+     * @param nums the nums
+     */
+    public static void print(final int[][] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            print(nums[i]);
         }
     }
 }

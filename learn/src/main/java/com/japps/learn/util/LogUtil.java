@@ -69,7 +69,9 @@ public final class LogUtil {
     }
 
     /**
-     * @param object
+     *  Prints the object with a new line at the end.
+     *
+     * @param objects the objects
      */
     public static void printLn(final Object ...objects) {
 
@@ -79,6 +81,22 @@ public final class LogUtil {
                 stringBuilder.append(object);
             }
             System.out.println(stringBuilder);
+        }
+    }
+
+    /**
+     * Prints the objects.
+     *
+     * @param objects the objects
+     */
+    public static void print(final Object ...objects) {
+
+        if (objects != null && objects.length > 0) {
+            final StringBuilder stringBuilder = new StringBuilder();
+            for (final Object object : objects) {
+                stringBuilder.append(object);
+            }
+            System.out.print(stringBuilder);
         }
     }
 }
