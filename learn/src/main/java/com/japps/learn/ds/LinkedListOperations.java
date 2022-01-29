@@ -96,4 +96,5 @@ public final class LinkedListOperations {
         }
         return list1;
     }
+
 }

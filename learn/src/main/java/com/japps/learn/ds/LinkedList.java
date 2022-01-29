@@ -5,8 +5,14 @@
  */
 package com.japps.learn.ds;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -74,6 +80,7 @@ public class LinkedList<T> {
          * @param newNext the new next
          */
         public void next(final Node<T> newNext) {
+
             this.next = newNext;
         }
 
@@ -116,6 +123,31 @@ public class LinkedList<T> {
     }
 
     /**
+     * Instantiates a new linked list.
+     *
+     * @param values the values
+     */
+    public void addAll(@SuppressWarnings("unchecked")
+    final T... values) {
+
+        if (ArrayUtils.isNotEmpty(values)) {
+            addAll(Arrays.asList(values));
+        }
+    }
+
+    /**
+     * Adds the all.
+     *
+     * @param values the values
+     */
+    public void addAll(final List<T> values) {
+
+        if (CollectionUtils.isNotEmpty(values)) {
+            values.forEach(value -> add(value));
+        }
+    }
+
+    /**
      * Adds the node.
      *
      * @param value the value
@@ -154,9 +186,7 @@ public class LinkedList<T> {
     public boolean add(final T value, final int index) {
 
         checkCapacity();
-        if (index < 0 || index > size) {
-            throwIndexOutOfBoundsException(index);
-        }
+        checkBounds(index);
         final Node<T> node = new Node<T>(value);
         if (this.head == null) {
             this.head = node;
@@ -254,9 +284,7 @@ public class LinkedList<T> {
      */
     public boolean remove(final int index) {
 
-        if (index < 0 || index > size - 1) {
-            throwIndexOutOfBoundsException(index);
-        }
+        checkInclusiveBounds(index);
         if (head == null) {
             return false;
         }
@@ -277,6 +305,16 @@ public class LinkedList<T> {
             current = current.next;
         }
         return false;
+    }
+
+    /**
+     * @param index
+     */
+    private void checkInclusiveBounds(final int index) {
+
+        if (index < 0 || index > size - 1) {
+            throwIndexOutOfBoundsException(index);
+        }
     }
 
     /**
@@ -397,9 +435,7 @@ public class LinkedList<T> {
      */
     public T value(final int index) {
 
-        if (index < 0 || index > size - 1) {
-            throwIndexOutOfBoundsException(index);
-        }
+        checkInclusiveBounds(index);
         if (head == null) {
             throw new IllegalStateException("List head is null.");
         }
@@ -441,7 +477,110 @@ public class LinkedList<T> {
      * @param newNext the new next
      */
     public void next(final Node<T> node, final Node<T> newNext) {
+
         node.next(newNext);
+    }
+
+    /**
+     * Removes the duplicates.
+     */
+    public void removeDuplicates() {
+
+        final Set<T> visited = new HashSet<>();
+
+        Node<T> prev = new Node<>();
+        prev.next = head;
+        Node<T> current = head;
+
+        while (current != null) {
+            if (!visited.add(current.value())) {
+                prev.next = current.next;
+                decrementSize();
+            } else {
+                prev = prev.next;
+            }
+            current = current.next;
+        }
+    }
+
+    /**
+     * Removes the duplicates without set.
+     */
+    public void removeDuplicatesWithoutSet() {
+
+        Node<T> current = head;
+
+        while (current != null) {
+            Node<T> runner = current;
+            while (runner.next != null) {
+                if (Objects.equals(runner.next.value, current.value)) {
+                    runner.next = runner.next.next;
+                } else {
+                    runner = runner.next;
+                }
+            }
+            current = current.next;
+        }
+    }
+
+    /**
+     * Sub list.
+     *
+     * @param index the index
+     * @return the node
+     */
+    public Node<T> subList(final int index) {
+
+        checkInclusiveBounds(index);
+        Node<T> current = head;
+        int count = 0;
+
+        while (current != null) {
+            if (count++ == index) {
+                return current;
+            }
+            current = current.next;
+        }
+        return null;
+    }
+
+
+    /**
+     * Check bounds.
+     *
+     * @param index the index
+     */
+    private void checkBounds(final int index) {
+
+        if (index < 0 || index > size) {
+            throwIndexOutOfBoundsException(index);
+        }
+
+    }
+
+    /**
+     * Kth to last sub list.
+     *
+     * @param k the k
+     * @return the node
+     */
+    public Node<T> kthToLastSubList(final int k) {
+
+        checkInclusiveBounds(k);
+
+        Node<T> current = head;
+        Node<T> kThFromCurrent = head;
+        int count = -1;
+
+        while (count++ != k) {
+            kThFromCurrent = kThFromCurrent.next;
+        }
+
+        while (kThFromCurrent != null) {
+            current = current.next;
+            kThFromCurrent = kThFromCurrent.next;
+        }
+        return current;
     }
 
     /**
