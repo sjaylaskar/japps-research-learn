@@ -41,7 +41,7 @@ public class LinkedList<T> {
     public static class Node<T> {
 
         /** The value. */
-        private final T value;
+        private T value;
 
         /** The next. */
         private Node<T> next;
@@ -89,9 +89,13 @@ public class LinkedList<T> {
          *
          * @return the node
          */
-        private T value() {
+        public T value() {
 
             return this.value;
+        }
+
+        public void value(final T value) {
+            this.value = value;
         }
 
         /**

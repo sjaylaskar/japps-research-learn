@@ -50,7 +50,8 @@ public final class LinkedListOperations {
 
     /**
      * Zipper lists.
-     * <br/><b>WARNING: This operation mutates the lists. </b>
+     * <br/>
+     * <b>WARNING: This operation mutates the lists. </b>
      *
      * @param <T> the generic type
      * @param list1 the list 1
@@ -95,6 +96,28 @@ public final class LinkedListOperations {
             tail.next(current2);
         }
         return list1;
+    }
+
+    /**
+     * Removes the node.
+     * <br/><b>WARN: This is a mutating operation on the list to which the node belongs.</b>
+     *
+     * @param <T> the generic type
+     * @param node the node
+     * @return true, if successful
+     */
+    public static <T> boolean removeNode(Node<T> node) {
+
+        if (node == null) {
+            return false;
+        }
+        if (node.next() == null) {
+            node = null;
+        }
+        final Node<T> next = node.next();
+        node.value(next.value());
+        node.next(next.next());
+        return true;
     }
 
 }
