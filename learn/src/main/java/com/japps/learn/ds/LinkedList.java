@@ -32,6 +32,17 @@ public class LinkedList<T> {
     private int size;
 
     /**
+     * New node.
+     *
+     * @param <T> the generic type
+     * @return the node
+     */
+    public static <T> Node<T> newNode() {
+
+        return new Node<>();
+    }
+
+    /**
      * The node.
      *
      * @author Subhajoy Laskar
@@ -94,7 +105,13 @@ public class LinkedList<T> {
             return this.value;
         }
 
+        /**
+         * Value.
+         *
+         * @param value the value
+         */
         public void value(final T value) {
+
             this.value = value;
         }
 
@@ -124,6 +141,16 @@ public class LinkedList<T> {
      */
     public LinkedList() {
 
+    }
+
+    /**
+     * Instantiates a new linked list.
+     *
+     * @param head the head
+     */
+    public LinkedList(final Node<T> head) {
+        this.head = head;
+        this.size = size(head);
     }
 
     /**
@@ -312,7 +339,9 @@ public class LinkedList<T> {
     }
 
     /**
-     * @param index
+     * Check inclusive bounds.
+     *
+     * @param index the index
      */
     private void checkInclusiveBounds(final int index) {
 
@@ -548,7 +577,6 @@ public class LinkedList<T> {
         return null;
     }
 
-
     /**
      * Check bounds.
      *
@@ -594,6 +622,23 @@ public class LinkedList<T> {
      */
     public int size() {
 
+        return size;
+    }
+
+    /**
+     * Size.
+     *
+     * @param <T> the generic type
+     * @param head the head
+     * @return the size
+     */
+    private static <T> int size(final Node<T> head) {
+        Node<T> current = head;
+        int size = 0;
+        while (current != null) {
+            ++size;
+            current = current.next;
+        }
         return size;
     }
 

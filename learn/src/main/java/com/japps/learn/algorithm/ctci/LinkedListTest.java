@@ -31,7 +31,81 @@ public final class LinkedListTest {
         testRemoveDuplicates();
         testSubList();
         testRemoveNode();
+        testSumLists();
+        testPartitionedList();
+    }
 
+    /**
+     * Test partitioned list.
+     */
+    private static void testPartitionedList() {
+
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        linkedList.addAll(1, 3, 6, 2, 2, 3, 4, 1, 9, 0, 5, 5, 3, 7, 2);
+        printLn(linkedList);
+        printLn(LinkedListOperations.divideAndMergeOnPartition(linkedList, 5));
+
+        linkedList = new LinkedList<>();
+        linkedList.addAll(1, 2, 3, 4, 3, 2, 1, 0, 1, 2, 4);
+        printLn(linkedList);
+        printLn(LinkedListOperations.divideAndMergeOnPartition(linkedList, 5));
+
+        linkedList = new LinkedList<>();
+        linkedList.addAll(5, 6, 7, 8, 9, 10, 12, 5, 6, 7);
+        printLn(linkedList);
+        printLn(LinkedListOperations.divideAndMergeOnPartition(linkedList, 5));
+
+        linkedList = null;
+        printLn(linkedList);
+        printLn(LinkedListOperations.divideAndMergeOnPartition(linkedList, 5));
+
+        final LinkedList<String> stringLinkedList = new LinkedList<>();
+        stringLinkedList.addAll("a", "b", "c", "k", "z", "d", "d", "e", "m", "p", "s", "k", "g", "h", "k", "j");
+        printLn(stringLinkedList);
+        printLn(LinkedListOperations.divideAndMergeOnPartition(stringLinkedList, "k"));
+
+    }
+
+    /**
+     * Test sum lists.
+     */
+    private static void testSumLists() {
+
+        LinkedList<Integer> list1 = LinkedListOperations.toLinkedList(42617);
+        LinkedList<Integer> list2 = LinkedListOperations.toLinkedList(95);
+        printLn("List1: " + list1);
+        printLn("List2: " + list2);
+        printLn("Sum: " + LinkedListOperations.sumLists(list1, list2));
+
+        list1 = LinkedListOperations.toLinkedList(95);
+        list2 = LinkedListOperations.toLinkedList(42617);
+        printLn("List1: " + list1);
+        printLn("List2: " + list2);
+        printLn("Sum: " + LinkedListOperations.sumLists(list1, list2));
+
+        list1 = LinkedListOperations.toLinkedList(95);
+        list2 = LinkedListOperations.toLinkedList(99999189);
+        printLn("List1: " + list1);
+        printLn("List2: " + list2);
+        printLn("Sum: " + LinkedListOperations.sumLists(list1, list2));
+
+        list1 = LinkedListOperations.toLinkedList(95);
+        list2 = null;
+        printLn("List1: " + list1);
+        printLn("List2: " + list2);
+        printLn("Sum: " + LinkedListOperations.sumLists(list1, list2));
+
+        list1 = null;
+        list2 = LinkedListOperations.toLinkedList(42617);
+        printLn("List1: " + list1);
+        printLn("List2: " + list2);
+        printLn("Sum: " + LinkedListOperations.sumLists(list1, list2));
+
+        list1 = null;
+        list2 = null;
+        printLn("List1: " + list1);
+        printLn("List2: " + list2);
+        printLn("Sum: " + LinkedListOperations.sumLists(list1, list2));
     }
 
     /**
