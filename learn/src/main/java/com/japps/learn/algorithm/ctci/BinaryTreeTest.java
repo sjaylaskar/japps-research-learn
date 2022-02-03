@@ -30,6 +30,27 @@ public final class BinaryTreeTest {
         testDepthFirstTraversalRecurse();
         testIsPresentRecurse();
         testIsPresentBFS();
+        testTreeSum();
+    }
+
+    private static void testTreeSum() {
+
+        final BinaryTree<Integer> tree = new BinaryTree<>();
+        tree.root(new Node<>(1));
+        tree.root().left(new Node<>(20));
+        tree.root().right(new Node<>(45));
+        tree.root().left().left(new Node<>(-20));
+        tree.root().left().right(new Node<>(45));
+        tree.root().right().left(new Node<>(20));
+        tree.root().right().right(new Node<>(45));
+        tree.root().right().left().left(new Node<>(20));
+        tree.root().right().right().right(new Node<>(45));
+
+        printLn(tree);
+
+        printLn(BinaryTreeOperations.treeSumRecurse(tree));
+        printLn(BinaryTreeOperations.treeSumBFS(tree));
+
     }
 
     private static void testIsPresentBFS() {

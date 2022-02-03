@@ -5,6 +5,13 @@
  */
 package com.japps.learn.ds;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * The binary tree.
  *
@@ -46,6 +53,36 @@ public class BinaryTree<T> {
 
     public void root(final Node<T> root) {
         this.root = root;
+    }
+
+    @Override
+    public String toString() {
+        if (this.root != null) {
+            toTreeString();
+        }
+        return super.toString();
+    }
+
+    private String toTreeString() {
+        if (root == null) {
+            return StringUtils.EMPTY;
+        }
+
+        final List<Node<T>> nodeList = new ArrayList<>();
+        final Deque<Node<T>> queue = new ArrayDeque<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            final Node<T> current = queue.poll();
+            nodeList.add(current);
+            if (current.left != null) {
+                queue.add(current.left);
+            }
+            if (current.right != null) {
+                queue.add(current.right);
+            }
+        }
+        return "";
     }
 
     /**

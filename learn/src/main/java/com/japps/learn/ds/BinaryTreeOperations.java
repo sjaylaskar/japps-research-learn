@@ -169,10 +169,7 @@ public final class BinaryTreeOperations {
      */
     public static <T> boolean isPresentRecurse(final BinaryTree<T> binaryTree, final T target) {
 
-        if (binaryTree == null) {
-            return false;
-        }
-        return isPresentRecurse(binaryTree.root(), target);
+        return (binaryTree == null) ? false : isPresentRecurse(binaryTree.root(), target);
     }
 
     /**
@@ -205,10 +202,7 @@ public final class BinaryTreeOperations {
      */
     public static <T> boolean isPresentBFS(final BinaryTree<T> binaryTree, final T target) {
 
-        if (binaryTree == null) {
-            return false;
-        }
-        return isPresentBFS(binaryTree.root(), target);
+        return (binaryTree == null) ? false : isPresentBFS(binaryTree.root(), target);
     }
 
     /**
@@ -242,6 +236,72 @@ public final class BinaryTreeOperations {
         }
 
         return false;
+    }
+
+    /**
+     * Tree sum BFS.
+     *
+     * @param tree the tree
+     * @return the int
+     */
+    public static int treeSumBFS(final BinaryTree<Integer> tree) {
+
+        return (tree == null) ? 0 : treeSumBFS(tree.root());
+    }
+
+    /**
+     * Tree sum BFS.
+     *
+     * @param root the root
+     * @return the int
+     */
+    private static int treeSumBFS(final Node<Integer> root) {
+
+        if (root == null) {
+            return 0;
+        }
+
+        int sum = 0;
+        final Deque<Node<Integer>> deque = new ArrayDeque<>();
+        deque.add(root);
+
+        while (!deque.isEmpty()) {
+            final Node<Integer> current = deque.poll();
+            sum += current.value();
+            if (current.left() != null) {
+                deque.add(current.left());
+            }
+            if (current.right() != null) {
+                deque.add(current.right());
+            }
+        }
+
+        return sum;
+    }
+
+    /**
+     * Tree sum recurse.
+     *
+     * @param tree the tree
+     * @return the int
+     */
+    public static int treeSumRecurse(final BinaryTree<Integer> tree) {
+
+        return (tree == null) ? 0 : treeSumRecurse(tree.root());
+    }
+
+    /**
+     * Tree sum recurse.
+     *
+     * @param root the root
+     * @return the int
+     */
+    private static int treeSumRecurse(final Node<Integer> root) {
+
+        if (root == null) {
+            return 0;
+        }
+        return root.value() + treeSumRecurse(root.left()) + treeSumRecurse(root.right());
     }
 
 }
