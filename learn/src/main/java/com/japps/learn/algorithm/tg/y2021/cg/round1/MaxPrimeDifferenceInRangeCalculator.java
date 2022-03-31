@@ -3,7 +3,7 @@
  * Copyright (©) 2021 Subhajoy Laskar
  * https://www.linkedin.com/in/subhajoylaskar
  */
-package com.japps.learn.algorithm.tg.cg2021.round1;
+package com.japps.learn.algorithm.tg.y2021.cg.round1;
 
 import java.util.ArrayList;
 import java.util.Arrays;

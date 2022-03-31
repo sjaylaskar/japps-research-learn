@@ -3,7 +3,7 @@
 * Copyright (©) 2021 Subhajoy Laskar
 * https://www.linkedin.com/in/subhajoylaskar
 */
-package com.japps.learn.algorithm.tg.innominds.apr2021;
+package com.japps.learn.algorithm.tg.y2021.apr.innominds;
 
 import java.util.Scanner;
 

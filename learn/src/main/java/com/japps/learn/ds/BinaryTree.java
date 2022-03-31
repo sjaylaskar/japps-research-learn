@@ -51,18 +51,31 @@ public class BinaryTree<T> {
         return root;
     }
 
+    /**
+     * Root.
+     *
+     * @param root the root
+     */
     public void root(final Node<T> root) {
         this.root = root;
     }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
-        if (this.root != null) {
-            toTreeString();
-        }
-        return super.toString();
+        final String treeString = toTreeString();
+        return treeString;
     }
 
+    /**
+     * To tree string.
+     *
+     * @return the string
+     */
     private String toTreeString() {
         if (root == null) {
             return StringUtils.EMPTY;
@@ -82,7 +95,7 @@ public class BinaryTree<T> {
                 queue.add(current.right);
             }
         }
-        return "";
+        return nodeList.toString();
     }
 
     /**
@@ -124,40 +137,48 @@ public class BinaryTree<T> {
          * Left.
          *
          * @param node the node
+         * @return the node
          */
-        public void left(final Node<T> node) {
+        public Node<T> left(final Node<T> node) {
 
             this.left = node;
+            return this.left;
         }
 
         /**
          * Left.
          *
          * @param value the value
+         * @return the node
          */
-        public void left(final T value) {
+        public Node<T> left(final T value) {
 
             this.left = new Node<>(value);
+            return this.left;
         }
 
         /**
          * Right.
          *
          * @param node the node
+         * @return the node
          */
-        public void right(final Node<T> node) {
+        public Node<T> right(final Node<T> node) {
 
             this.right = node;
+            return this.right;
         }
 
         /**
          * Right.
          *
          * @param value the value
+         * @return the node
          */
-        public void right(final T value) {
+        public Node<T> right(final T value) {
 
             this.right = new Node<>(value);
+            return this.right;
         }
 
         /**

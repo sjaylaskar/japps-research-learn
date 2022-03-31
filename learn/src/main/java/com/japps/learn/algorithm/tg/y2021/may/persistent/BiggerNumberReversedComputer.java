@@ -3,7 +3,7 @@
 * Copyright (©) 2021 Subhajoy Laskar
 * https://www.linkedin.com/in/subhajoylaskar
 */
-package com.japps.learn.algorithm.tg.may2021.persistent;
+package com.japps.learn.algorithm.tg.y2021.may.persistent;
 
 import java.util.Scanner;
 

@@ -20,7 +20,9 @@ import com.japps.learn.ds.BinaryTreeOperations;
 public final class BinaryTreeTest {
 
     /**
-     * @param args
+     * The main method.
+     *
+     * @param args the arguments
      */
     public static void main(final String[] args) {
 
@@ -31,8 +33,70 @@ public final class BinaryTreeTest {
         testIsPresentRecurse();
         testIsPresentBFS();
         testTreeSum();
+        testTreeMaxValue();
+        testTreeMaxRootToLeafPathSum();
     }
 
+    private static void testTreeMaxRootToLeafPathSum() {
+
+        final BinaryTree<Integer> tree = new BinaryTree<>();
+        tree.root(new Node<>(2));
+        tree.root().left(new Node<>(1));
+        tree.root().right(new Node<>(3));
+        tree.root().left().left(0);
+        tree.root().left().right(6);
+        tree.root().left().left().right(4);
+        tree.root().left().right().left(5);
+        tree.root().right().right(20);
+        tree.root().right().right().left(7);
+
+        printLn(tree);
+
+        printLn(BinaryTreeOperations.maxRootToLeafPathSum(tree));
+
+        final BinaryTree<Integer> tree2 = new BinaryTree<>();
+        tree2.root(new Node<>(-1));
+        tree2.root().left(new Node<>(-6));
+        tree2.root().right(new Node<>(-5));
+        tree2.root().left().left(-3);
+        tree2.root().left().right(0).left(-1);
+        tree2.root().right().right(-13).right(-2);
+
+        printLn(tree2);
+
+        printLn(BinaryTreeOperations.maxRootToLeafPathSum(tree2));
+
+    }
+
+    /**
+     * Test tree max value.
+     */
+    private static void testTreeMaxValue() {
+
+        final BinaryTree<Integer> tree = new BinaryTree<>();
+        tree.root(new Node<>(1));
+        tree.root().left(new Node<>(20));
+        tree.root().right(new Node<>(45));
+        tree.root().left().left(new Node<>(-20));
+        tree.root().left().right(new Node<>(45));
+        tree.root().right().left(new Node<>(20));
+        tree.root().right().right(new Node<>(45));
+        tree.root().right().left().left(new Node<>(20));
+        tree.root().right().right().right(new Node<>(45));
+        tree.root().right().right().left(new Node<>(205));
+        tree.root().right().right().right().right(new Node<>(105));
+        tree.root().right().right().left().right(new Node<>(-105));
+
+        printLn(tree);
+
+        printLn(BinaryTreeOperations.treeMaxValueBFS(tree));
+        printLn(BinaryTreeOperations.treeMaxValueDFS(tree));
+
+    }
+
+    /**
+     * Test tree sum.
+     */
     private static void testTreeSum() {
 
         final BinaryTree<Integer> tree = new BinaryTree<>();
@@ -53,6 +117,9 @@ public final class BinaryTreeTest {
 
     }
 
+    /**
+     * Test is present BFS.
+     */
     private static void testIsPresentBFS() {
 
         final BinaryTree<Character> binaryTree = new BinaryTree<Character>();
@@ -72,6 +139,9 @@ public final class BinaryTreeTest {
 
     }
 
+    /**
+     * Test is present recurse.
+     */
     private static void testIsPresentRecurse() {
 
         final BinaryTree<Character> binaryTree = new BinaryTree<Character>();
@@ -91,6 +161,9 @@ public final class BinaryTreeTest {
 
     }
 
+    /**
+     * Test depth first traversal recurse.
+     */
     private static void testDepthFirstTraversalRecurse() {
 
         final BinaryTree<Character> binaryTree = new BinaryTree<Character>();
@@ -124,6 +197,9 @@ public final class BinaryTreeTest {
 
     }
 
+    /**
+     * Test breadth first traversal.
+     */
     private static void testBreadthFirstTraversal() {
 
         final BinaryTree<Character> binaryTree = new BinaryTree<Character>();

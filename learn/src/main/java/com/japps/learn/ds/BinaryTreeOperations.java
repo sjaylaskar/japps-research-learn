@@ -8,8 +8,10 @@ package com.japps.learn.ds;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.Stack;
 
 import com.japps.learn.ds.BinaryTree.Node;
@@ -304,4 +306,104 @@ public final class BinaryTreeOperations {
         return root.value() + treeSumRecurse(root.left()) + treeSumRecurse(root.right());
     }
 
+    /**
+     * Tree max value BFS.
+     *
+     * @param root the root
+     * @return the int
+     */
+    private static int treeMaxValueBFS(final Node<Integer> root) {
+
+        if (root == null) {
+            return 0;
+        }
+
+        final Queue<Node<Integer>> queue = new LinkedList<>();
+
+        queue.add(root);
+
+        int max = Integer.MIN_VALUE;
+        while (!queue.isEmpty()) {
+
+            final Node<Integer> current = queue.poll();
+
+            max = Math.max(max, current.value());
+
+            if (current.left() != null) {
+                queue.add(current.left());
+            }
+            if (current.right() != null) {
+                queue.add(current.right());
+            }
+        }
+        return max;
+    }
+
+    /**
+     * Tree max value DFS.
+     *
+     * @param root the root
+     * @return the int
+     */
+    private static int treeMaxValueDFS(final Node<Integer> root) {
+
+        if (root == null) {
+            return 0;
+        }
+
+        return Math.max(root.value(), Math.max(treeMaxValueDFS(root.left()), treeMaxValueDFS(root.right())));
+    }
+
+    /**
+     * Tree max value BFS.
+     *
+     * @param tree the tree
+     * @return the int
+     */
+    public static int treeMaxValueBFS(final BinaryTree<Integer> tree) {
+
+        return (tree == null) ? 0 : treeMaxValueBFS(tree.root());
+    }
+
+    /**
+     * Tree max value DFS.
+     *
+     * @param tree the tree
+     * @return the int
+     */
+    public static int treeMaxValueDFS(final BinaryTree<Integer> tree) {
+
+        return (tree == null) ? 0 : treeMaxValueDFS(tree.root());
+    }
+
+    /**
+     * Max root to leaf path sum.
+     *
+     * @param tree the tree
+     * @return the int
+     */
+    public static int maxRootToLeafPathSum(final BinaryTree<Integer> tree) {
+
+        return (tree == null) ? 0 : maxRootToLeafPathSum(tree.root());
+    }
+
+    /**
+     * Max root to leaf path sum.
+     *
+     * @param root the root
+     * @return the int
+     */
+    private static int maxRootToLeafPathSum(final Node<Integer> root) {
+
+        if (root == null) {
+            return Integer.MIN_VALUE;
+        }
+        if (root.left() == null && root.right() == null) {
+            return root.value();
+        }
+        return root.value()
+            + Math.max(maxRootToLeafPathSum(root.left()),
+                maxRootToLeafPathSum(root.right()));
+
+    }
 }

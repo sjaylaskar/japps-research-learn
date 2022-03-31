@@ -3,7 +3,7 @@
  * Copyright (©) 2021 Subhajoy Laskar
  * https://www.linkedin.com/in/subhajoylaskar
  */
-package com.japps.learn.algorithm.tg.virtusa.mar2021;
+package com.japps.learn.algorithm.tg.y2021.mar.virtusa;
 
 import static java.util.stream.Collectors.toList;
 
