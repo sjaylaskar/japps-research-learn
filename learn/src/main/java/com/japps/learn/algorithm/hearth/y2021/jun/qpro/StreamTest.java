@@ -3,7 +3,7 @@
 * Copyright (©) 2021 Subhajoy Laskar
 * https://www.linkedin.com/in/subhajoylaskar
 */
-package com.japps.learn.algorithm.hearth.jun2021.questionpro;
+package com.japps.learn.algorithm.hearth.y2021.jun.qpro;
 
 import java.util.stream.IntStream;
 import java.util.stream.Stream;

@@ -19,7 +19,7 @@ import java.util.Map;
  * @author Subhajoy Laskar
  * @version 1.0
  */
-public final class FileTransferrer implements Loggable {
+public final class FileCopier implements Loggable {
 
     private static final String SOURCE_PATH_2020 = "data/2020";
     private static final String DESTINATION_PATH_2020 = "src/main/resources/com/japps/adventofcode/probs2020";
@@ -36,7 +36,7 @@ public final class FileTransferrer implements Loggable {
 
     private static int count;
 
-    private FileTransferrer() {
+    private FileCopier() {
 
     }
 
@@ -51,7 +51,7 @@ public final class FileTransferrer implements Loggable {
             final Path sourcePath = Paths.get(src);
             final Path destinationPath = Paths.get(dest);
             listAndCopy(sourcePath, destinationPath);
-            Loggable.INFO(FileTransferrer.class, "Number of files copied from: " + src + " is: " + count);
+            Loggable.INFO(FileCopier.class, "Number of files copied from: " + src + " is: " + count);
             count = 0;
         });
     }
@@ -61,7 +61,7 @@ public final class FileTransferrer implements Loggable {
         try {
             Files.list(sourcePath).forEach(sourceFile -> copy(sourceFile, destinationPath));
         } catch (final IOException exception) {
-            Loggable.ERROR(FileTransferrer.class, exception.getLocalizedMessage());
+            Loggable.ERROR(FileCopier.class, exception.getLocalizedMessage());
             throw new RuntimeException(exception);
         }
     }
@@ -81,11 +81,11 @@ public final class FileTransferrer implements Loggable {
                 Files.copy(sourceFile,
                     resolveDestinationFilePath,
                     StandardCopyOption.REPLACE_EXISTING);
-                Loggable.INFO(FileTransferrer.class, "Copied file: " + sourceFile);
+                Loggable.INFO(FileCopier.class, "Copied file: " + sourceFile);
                 ++count;
             }
         } catch (final IOException exception) {
-            Loggable.ERROR(FileTransferrer.class, exception.getLocalizedMessage());
+            Loggable.ERROR(FileCopier.class, exception.getLocalizedMessage());
             throw new RuntimeException(exception);
         }
     }

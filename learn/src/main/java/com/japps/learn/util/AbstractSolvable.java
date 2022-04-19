@@ -18,6 +18,6 @@ public abstract class AbstractSolvable implements Solvable {
      * Instantiates a new abstract solvable.
      */
     protected AbstractSolvable() {
-        FileTransferrer.main();
+        FileCopier.main();
     }
 }

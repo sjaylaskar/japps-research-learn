@@ -3,7 +3,7 @@
 * Copyright (©) 2021 Subhajoy Laskar
 * https://www.linkedin.com/in/subhajoylaskar
 */
-package com.japps.learn.algorithm.hearth.may2021.cambian;
+package com.japps.learn.algorithm.hearth.y2021.may.cambian;
 
 import java.io.BufferedReader;
 import java.io.IOException;

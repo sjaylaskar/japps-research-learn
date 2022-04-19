@@ -3,7 +3,7 @@
  * Copyright (©) 2021 Subhajoy Laskar
  * https://www.linkedin.com/in/subhajoylaskar
  */
-package com.japps.learn.algorithm.hearth.may2021.falabella;
+package com.japps.learn.algorithm.hearth.y2021.may.falabella;
 
 import java.util.Arrays;
 import java.util.HashMap;
