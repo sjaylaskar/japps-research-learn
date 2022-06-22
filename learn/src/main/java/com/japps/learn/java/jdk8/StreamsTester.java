@@ -157,6 +157,13 @@ public final class StreamsTester {
         .stream()
         .sorted((a, b) -> LanguagePriority.compare(a.getKey(), b.getKey()))
         .toList());
+
+        System.out.println("Name-Language map of countries");
+        System.out.println(
+        countries
+        .stream()
+        .collect(Collectors.toMap(Country::getName, Country::getLanguage)));
+
     }
 
 }
