@@ -27,6 +27,16 @@ public final class ExclusiveRoomNumberFinder {
 
         final int n = scanner.nextInt();
 
+        findRoom(n);
+
+        scanner.close();
+    }
+
+    /**
+     * @param n
+     */
+    private static void findRoom(final int n) {
+
         int currentMaxNum = n;
         for (int i = 1; i <= currentMaxNum; i++) {
             final String numStr = Integer.toString(i);
@@ -34,9 +44,6 @@ public final class ExclusiveRoomNumberFinder {
                 currentMaxNum++;
             }
         }
-
         System.out.println(currentMaxNum);
-
-        scanner.close();
     }
 }

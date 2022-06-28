@@ -5,9 +5,9 @@
  */
 package com.japps.learn.algorithm.tg.y2022.cg.round2;
 
-import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 
@@ -34,12 +34,13 @@ public final class AvailableSeatsDeterminer {
 
         final long q = scanner.nextLong();
 
-        final Set<Long> occupiedSeats = new HashSet<>();
-        LongStream.range(1, t + 1).forEach(index -> occupiedSeats.add(scanner.nextLong()));
+        final Set<Long> occupiedSeats =
+            LongStream.range(1, t + 1)
+            .map(index -> scanner.nextLong()).boxed().collect(Collectors.toSet());
 
         try {
             LongStream.range(1, q + 1)
-            .forEach(index -> System.out.println((occupiedSeats.contains(scanner.nextLong())) ? "N" : "Y"));
+                .forEach(index -> System.out.println((occupiedSeats.contains(scanner.nextLong())) ? "N" : "Y"));
         } catch (final Exception exception) {
             System.out.println("Y");
         }
