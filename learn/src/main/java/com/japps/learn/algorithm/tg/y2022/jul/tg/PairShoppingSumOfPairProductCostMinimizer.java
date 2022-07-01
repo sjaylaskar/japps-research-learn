@@ -39,9 +39,8 @@ public final class PairShoppingSumOfPairProductCostMinimizer {
             scanner.nextLine();
 
             final List<Long> cropTopPrices = Arrays.stream(scanner.nextLine().split(" "))
-                .mapToLong(Long::valueOf)
+                .map(Long::valueOf)
                 .sorted()
-                .boxed()
                 .toList();
 
             final List<Long> skirtPrices = Arrays.stream(scanner.nextLine().split(" "))
@@ -53,14 +52,11 @@ public final class PairShoppingSumOfPairProductCostMinimizer {
             boolean costExceedsBudget = false;
             for (int priceIndex = 0; priceIndex < n; priceIndex++) {
                 if ((cost += (cropTopPrices.get(priceIndex) * skirtPrices.get(priceIndex))) > m) {
-                    System.out.println("NO");
                     costExceedsBudget = true;
                     break;
                 }
             }
-            if (!costExceedsBudget) {
-                System.out.println("YES");
-            }
+            System.out.println((!costExceedsBudget) ? "YES" : "NO");
         }
 
         scanner.close();
