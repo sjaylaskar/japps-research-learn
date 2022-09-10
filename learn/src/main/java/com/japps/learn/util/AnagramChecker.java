@@ -25,6 +25,34 @@ public final class AnagramChecker {
     private static int NO_OF_CHARS = 256;
 
     /**
+     * Are anagrams for English alphabet.
+     *
+     * @param str1 the str 1
+     * @param str2 the str 2
+     * @return true, if successful
+     */
+    public static boolean areAnagramsForEngAlphabet(final String str1, final String str2) {
+
+        if (str1.length() != str2.length()) {
+            return false;
+        }
+        final int[] charCount = new int[26];
+
+        for (int i = 0; i < str1.length(); i++) {
+            final char c = str1.charAt(i);
+            charCount[(('A' <= c && c <= 'Z') ? c + 32 : c) - 97]++;
+        }
+
+        for (int i = 0; i < str2.length(); i++) {
+            final char c = str2.charAt(i);
+            if (--charCount[((('A' <= c && c <= 'Z') ? c + 32 : c) - 97)] < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Are anagrams.
      *
      * @param str1 the str 1
@@ -57,6 +85,8 @@ public final class AnagramChecker {
         }
         return true;
     }
+
+
 
     /**
      * Are anagrams by bit vector.

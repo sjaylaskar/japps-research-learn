@@ -37,5 +37,13 @@ public final class AnagramCheckerTest {
         System.out.println(AnagramChecker.areAnagramsByBitVector("1234", "3452"));
         System.out.println(AnagramChecker.areAnagramsByBitVector("1234", "34521"));
         System.out.println(AnagramChecker.areAnagramsByBitVector("1 234", "42 31"));
+
+        System.out.println("Test: areAnagramsForEngAlphabet(): ");
+        System.out.println(AnagramChecker.areAnagramsForEngAlphabet("nApp", "ppNa"));
+        System.out.println(AnagramChecker.areAnagramsForEngAlphabet("ABCD", "dcab"));
+        System.out.println(AnagramChecker.areAnagramsForEngAlphabet("hello", "hello"));
+        System.out.println(AnagramChecker.areAnagramsForEngAlphabet("rec", "cers"));
+        System.out.println(AnagramChecker.areAnagramsForEngAlphabet("AAAPP", "PAAAP"));
+        System.out.println(AnagramChecker.areAnagramsForEngAlphabet("SOMME", "SOMEE"));
     }
 }
