@@ -7,6 +7,14 @@ package com.japps.learn.etx.gform;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -61,6 +69,7 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 		try {
 			LOG.info("Start form submission now...");
 			enableDisableSystemPropertyAllowRestrictedHeaders(true);
+			// executeParallely();
 			// submitFormDataSequentially();
 			submitFormDataForNames();
 		} catch (final Exception exception) {
@@ -69,6 +78,32 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 			enableDisableSystemPropertyAllowRestrictedHeaders(false);
 			LOG.info("End form submission now...");
 		}
+	}
+
+	/**
+	 * Execute parallely.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 */
+	private static void executeParallely() throws InterruptedException {
+		final ExecutorService executorService = Executors.newFixedThreadPool(3);
+		final Set<Callable<String>> callables = new HashSet<>();
+		callables.add(() -> {
+			submitFormDataSequentially();
+			return "Accomplished sequential form data submission.";
+		});
+		callables.add(() -> {
+			submitFormDataForNames();
+			return "Accomplished random form data submission.";
+		});
+		final List<Future<String>> futures = executorService.invokeAll(callables);
+		futures.forEach(future -> {
+			try {
+				System.out.println(future.get());
+			} catch (final InterruptedException | ExecutionException exception) {
+				LOG.error(ExceptionUtils.getStackTrace(exception));
+			}
+		});
 	}
 
 	/**
