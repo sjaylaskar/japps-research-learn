@@ -8,13 +8,10 @@ package com.japps.learn.etx.gform;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -57,7 +54,7 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 	private static final int START_REQUEST_COUNT = 1;
 
 	/** The end request count. */
-	private static final int END_REQUEST_COUNT = 5000;
+	private static final int END_REQUEST_COUNT = 20000;
 
 	/**
 	 * The main method.
@@ -70,8 +67,8 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 			LOG.info("Start form submission now...");
 			enableDisableSystemPropertyAllowRestrictedHeaders(true);
 			// executeParallely();
-			// submitFormDataSequentially();
 			submitFormDataForNames();
+			submitFormDataSequentially();
 		} catch (final Exception exception) {
 			LOG.error(ExceptionUtils.getStackTrace(exception));
 		} finally {
@@ -86,24 +83,24 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 	 * @throws InterruptedException the interrupted exception
 	 */
 	private static void executeParallely() throws InterruptedException {
-		final ExecutorService executorService = Executors.newFixedThreadPool(3);
-		final Set<Callable<String>> callables = new HashSet<>();
-		callables.add(() -> {
-			submitFormDataSequentially();
-			return "Accomplished sequential form data submission.";
-		});
-		callables.add(() -> {
-			submitFormDataForNames();
-			return "Accomplished random form data submission.";
-		});
-		final List<Future<String>> futures = executorService.invokeAll(callables);
-		futures.forEach(future -> {
-			try {
-				System.out.println(future.get());
-			} catch (final InterruptedException | ExecutionException exception) {
-				LOG.error(ExceptionUtils.getStackTrace(exception));
-			}
-		});
+		final ExecutorService executorService = Executors.newFixedThreadPool(2);
+		try {
+			final Set<Callable<String>> callables = new HashSet<>();
+			callables.add(() -> {
+				submitFormDataSequentially();
+				return "Accomplished sequential form data submission.";
+			});
+			callables.add(() -> {
+				submitFormDataForNames();
+				return "Accomplished random form data submission.";
+			});
+			callables.forEach(callable -> executorService.submit(callable));
+		} catch (final Exception exception) {
+			LOG.error(ExceptionUtils.getStackTrace(exception));
+		} finally {
+			executorService.shutdown();
+		}
+
 	}
 
 	/**
@@ -151,10 +148,8 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 
 	/**
 	 * Submit form data sequentially.
-	 *
-	 * @throws InterruptedException the interrupted exception
 	 */
-	private static void submitFormDataSequentially() throws InterruptedException {
+	private static void submitFormDataSequentially() {
 		for (int requestCount = START_REQUEST_COUNT; requestCount <= END_REQUEST_COUNT; requestCount++) {
 			try {
 				final Response response = sendRequest(requestCount);
@@ -203,15 +198,12 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 
 	/**
 	 * Submit form for names.
-	 *
-	 * @throws InterruptedException the interrupted exception
 	 */
-	private static void submitFormDataForNames() throws InterruptedException {
+	private static void submitFormDataForNames() {
 		GoogleFormDataRandomizer.dataSetNames().forEach(name -> {
 			try {
 				final Response response = sendRequest(name);
-				LOG.info("Name: " + name + ", Response: " + response + ", Response status: "
-						+ response.getStatus());
+				LOG.info("Name: " + name + ", Response: " + response + ", Response status: " + response.getStatus());
 			} catch (final Exception exception) {
 				LOG.error("Name: " + name + ", Error: " + ExceptionUtils.getStackTrace(exception));
 			} finally {
@@ -240,7 +232,8 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 
 		final Form form = new Form().param(FormFieldType.NAME.code(), name);
 
-		FormFieldType.formFields().stream().filter(FormFieldType::isNotName).forEach(formField -> form.param(formField.code(), GoogleFormDataRandomizer.ofData(formField)));
+		FormFieldType.formFields().stream().filter(FormFieldType::isNotName)
+		.forEach(formField -> form.param(formField.code(), GoogleFormDataRandomizer.ofData(formField)));
 
 		LOG.info("Name: " + name + ", form data: " + form.asMap());
 
