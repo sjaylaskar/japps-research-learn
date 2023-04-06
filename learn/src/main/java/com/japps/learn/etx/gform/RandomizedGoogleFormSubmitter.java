@@ -1,5 +1,5 @@
 /**
- * Id: RandomizedGoogleFormSubmitter.java 05-Apr-2023 1:01:06 pm SubhajoyLaskar
+ * Id: RandomizedGoogleFormSubmitter.java 06-Apr-2023 9:44:52 am SubhajoyLaskar
  * Copyright (©) 2023 Subhajoy Laskar
  * https://www.linkedin.com/in/subhajoylaskar
  */
@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -55,6 +56,9 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 
 	/** The end request count. */
 	private static final int END_REQUEST_COUNT = 20000;
+
+	/** The end request by name count. */
+	private static final int END_REQUEST_BY_NAME_COUNT = 5000;
 
 	/**
 	 * The main method.
@@ -200,15 +204,19 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 	 * Submit form for names.
 	 */
 	private static void submitFormDataForNames() {
-		GoogleFormDataRandomizer.dataSetNames().forEach(name -> {
-			try {
-				final Response response = sendRequest(name);
-				LOG.info("Name: " + name + ", Response: " + response + ", Response status: " + response.getStatus());
-			} catch (final Exception exception) {
-				LOG.error("Name: " + name + ", Error: " + ExceptionUtils.getStackTrace(exception));
-			} finally {
-				sleepForAWhile();
-			}
+		IntStream.rangeClosed(START_REQUEST_COUNT, END_REQUEST_BY_NAME_COUNT)
+		.forEach(requestCount -> {
+			LOG.info("Request by name count: " + requestCount);
+			GoogleFormDataRandomizer.dataSetNames().forEach(name -> {
+				try {
+					final Response response = sendRequest(name);
+					LOG.info("Name: " + name + ", Response: " + response + ", Response status: " + response.getStatus());
+				} catch (final Exception exception) {
+					LOG.error("Name: " + name + ", Error: " + ExceptionUtils.getStackTrace(exception));
+				} finally {
+					sleepForAWhile();
+				}
+			});
 		});
 	}
 
