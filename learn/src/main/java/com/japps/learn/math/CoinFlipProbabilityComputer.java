@@ -82,7 +82,7 @@ public final class CoinFlipProbabilityComputer implements Loggable {
         log.println("================================== COIN FLIP PROBABILITY ==================================");
         log.println("flipCount: " + flipCount);
         log.println("trialCount: " + trialCount);
-        CoinFlipProbability coinFlipProbability = CoinFlipProbability.of();
+        CoinFlipProbability coinFlipProbability = CoinFlipProbability.of().trialCount(trialCount).flipCount(flipCount);
         for (long tc = 1; tc <= trialCount; tc++) {
             log.println("Trial: " + tc);
             long headCount = 0;
@@ -114,10 +114,39 @@ public final class CoinFlipProbabilityComputer implements Loggable {
 
         private CoinFlipProbability(){}
 
+        private long trialCount;
+
+        private long flipCount;
+
         private final Map<Long, Map<CoinFace, Double>> trialProbabilities = new HashMap<>();
 
         public static CoinFlipProbability of() {
             return new CoinFlipProbability();
+        }
+
+        public static CoinFlipProbability of(long trialCount, long flipCount) {
+            CoinFlipProbability instance = of();
+            instance.trialCount = trialCount;
+            instance.flipCount = flipCount;
+            return instance;
+        }
+
+        private long trialCount() {
+            return trialCount;
+        }
+
+        private CoinFlipProbability trialCount(long trialCount) {
+            this.trialCount = trialCount;
+            return this;
+        }
+
+        private long flipCount() {
+            return flipCount;
+        }
+
+        private CoinFlipProbability flipCount(long flipCount) {
+            this.flipCount = flipCount;
+            return this;
         }
 
         public static CoinFlipProbability of(Map<Long, Map<CoinFace, Double>> trialProbabilities) {
@@ -135,6 +164,10 @@ public final class CoinFlipProbabilityComputer implements Loggable {
             average.put(CoinFace.HEAD, trialProbabilities.values().stream().mapToDouble(trialProbability -> trialProbability.get(CoinFace.HEAD)).average().orElse(0d));
             average.put(CoinFace.TAIL, trialProbabilities.values().stream().mapToDouble(trialProbability -> trialProbability.get(CoinFace.TAIL)).average().orElse(0d));
             return average;
+        }
+
+        public String toAverage() {
+            return "Trial count: " + trialCount() + " - Flip count: " + flipCount() + " - Average: " + average();
         }
 
         @Override
