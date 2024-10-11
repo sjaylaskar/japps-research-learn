@@ -36,6 +36,9 @@ import jakarta.ws.rs.core.Response;
  */
 public final class RandomizedGoogleFormSubmitter implements Loggable {
 
+	/** The form id for team name form. */
+	private static final String FORM_ID_FOR_TEAM_NAME_FORM = "1FAIpQLSdM4OwVu9ln02HsquQHwrEGpBp91Fewf8vscu2U2dcErFXkUA";
+
 	/** The log. */
 	private static final LogUtil LOG = LogUtil.newInstance(RandomizedGoogleFormSubmitter.class);
 
@@ -71,7 +74,7 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 			LOG.info("Start form submission now...");
 			enableDisableSystemPropertyAllowRestrictedHeaders(true);
 			// executeParallely();
-			submitFormDataForNames();
+			//submitFormDataForNames();
 			submitFormDataSequentially();
 		} catch (final Exception exception) {
 			LOG.error(ExceptionUtils.getStackTrace(exception));
@@ -140,15 +143,38 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 	}
 
 	/**
+	 * Request builder.
+	 *
+	 * @return the builder
+	 */
+	private static Builder requestBuilderForTeamNameForm() {
+		final String url = "https://docs.google.com/forms/d/e/" + FORM_ID_FOR_TEAM_NAME_FORM + "/formResponse";
+
+		final Client client = ClientBuilder.newClient();
+		final WebTarget webTarget = client.target(url);
+
+		return webTarget.request(MediaType.APPLICATION_FORM_URLENCODED)
+				.accept("text/html", "application/xhtml+xml", "application/xml", "image/avif", "image/webp",
+						"image/apng", "*/*", "application/signed-exchange")
+				.acceptEncoding("gzip", "deflate", "br").acceptLanguage("en-US", "en")
+				.header("Connection", "keep-alive").header("Content-Type", MediaType.APPLICATION_FORM_URLENCODED)
+				.header("Referer", "https://docs.google.com/forms/d/e/" + FORM_ID_FOR_TEAM_NAME_FORM + "/viewform")
+				.header("cookie",
+						"S=spreadsheet_forms=a9DtuW4jWcU5VwmXO-MD3ZNkhErv_cPCNejdgPLKLQ0; COMPASS=spreadsheet_forms=CjIACWuJV-9fUNhXzTWUZ-fnppEGQNKLlC2DHivZwfyY2FbyzTbNZ9bX3MtGuilRVgolyBD_i-OpBho0AAlriVdbyYN6Zo0gmjX6egS1kMyefFl_ASouC6SaT2yLaZVtCA_c6lwfxH6SNBSYEZCf3g==; NID=511=NuLYC9PS70zvBHFXl5Z_TRXSveFC8Gao7or43C89Kr9of-4SqmJMYYOZBVaAkSR5zU1yre80bgwBy1rsHwt-zUbKMcL6uIwzlJOnnvYci-IuMZHmnAos7PWgXDmxmXnf54e3aTZYlEzDO77OSDZS1wcohuXs8IMYp6dDKtaPX64")
+				.header("user-agent",
+						"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36");
+	}
+
+	/**
 	 * Sleep.
 	 */
-	private static void sleepForAWhile() {
+	/*private static void sleepForAWhile() {
 		try {
 			Thread.sleep(Duration.ofMillis(2000));
 		} catch (final InterruptedException exception) {
 			LOG.error(ExceptionUtils.getStackTrace(exception));
 		}
-	}
+	}*/
 
 	/**
 	 * Submit form data sequentially.
@@ -156,13 +182,14 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 	private static void submitFormDataSequentially() {
 		for (int requestCount = START_REQUEST_COUNT; requestCount <= END_REQUEST_COUNT; requestCount++) {
 			try {
-				final Response response = sendRequest(requestCount);
+				//final Response response = sendRequest(requestCount);
+				final Response response = sendRequestForTeamNameForm(requestCount);
 				LOG.info("Request count: " + requestCount + ", Response: " + response + ", Response status: "
 						+ response.getStatus());
 			} catch (final Exception exception) {
 				LOG.error("Request count: " + requestCount + ", Error: " + ExceptionUtils.getStackTrace(exception));
 			} finally {
-				sleepForAWhile();
+				//sleepForAWhile();
 			}
 		}
 	}
@@ -175,6 +202,16 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 	 */
 	private static Response sendRequest(final int requestCount) {
 		return requestBuilder().post(Entity.form(generatePayload(requestCount)));
+	}
+
+	/**
+	 * Send request.
+	 *
+	 * @param requestCount the request count
+	 * @return the string
+	 */
+	private static Response sendRequestForTeamNameForm(final int requestCount) {
+		return requestBuilderForTeamNameForm().post(Entity.form(generatePayloadForTeamNameForm(requestCount)));
 	}
 
 	/**
@@ -201,6 +238,28 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 	}
 
 	/**
+	 * Generate payload.
+	 *
+	 * @param requestCount the request count
+	 * @return the payload.
+	 */
+	private static Form generatePayloadForTeamNameForm(final int requestCount) {
+
+		LOG.info("Request count: " + requestCount);
+
+		final String answer1 = "Team Tom & Team Jerry";
+		final String answer2 = "Team Thor & Team Loki";
+		final String answer3 = "Team Thunder & Team Lightning";
+
+		return new Form()
+				.param("entry.997643130", answer1)
+				.param("entry.997643130", answer2)
+				.param("entry.997643130", answer3)
+				.param("entry.997643130_sentinel", "")
+				.param("fvv", "1");
+	}
+
+	/**
 	 * Submit form for names.
 	 */
 	private static void submitFormDataForNames() {
@@ -214,7 +273,7 @@ public final class RandomizedGoogleFormSubmitter implements Loggable {
 				} catch (final Exception exception) {
 					LOG.error("Name: " + name + ", Error: " + ExceptionUtils.getStackTrace(exception));
 				} finally {
-					sleepForAWhile();
+					//sleepForAWhile();
 				}
 			});
 		});

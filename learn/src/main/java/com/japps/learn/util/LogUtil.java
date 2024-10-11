@@ -20,6 +20,8 @@ public final class LogUtil {
     /** The log. */
     private final Logger log;
 
+    private boolean isDisabled = false;
+
     /**
      * Instantiates a new log util.
      *
@@ -27,7 +29,12 @@ public final class LogUtil {
      * @param clazz the clazz
      */
     private <T extends Loggable> LogUtil(final Class<T> clazz) {
-        log = LogManager.getLogger(clazz);
+        this.log = LogManager.getLogger(clazz);
+    }
+
+    public LogUtil disabled(boolean isDisabled) {
+        this.isDisabled = isDisabled;
+        return this;
     }
 
     /**
@@ -47,7 +54,9 @@ public final class LogUtil {
      * @param message the message
      */
     public void info(final String message) {
-        log.info(message);
+        if (!isDisabled) {
+            log.info(message);
+        }
     }
 
     /**
@@ -56,7 +65,10 @@ public final class LogUtil {
      * @param message the message
      */
     public void error(final String message) {
-        log.error(message);
+        if (!isDisabled) {
+            log.error(message);
+        }
+
     }
 
     /**
@@ -65,7 +77,9 @@ public final class LogUtil {
      * @param object the object
      */
     public void println(final Object object) {
-        printLn(object);
+        if (!isDisabled) {
+            printLn(object);
+        }
     }
 
     /**
@@ -74,7 +88,6 @@ public final class LogUtil {
      * @param objects the objects
      */
     public static void printLn(final Object ...objects) {
-
         if (objects != null && objects.length > 0) {
             final StringBuilder stringBuilder = new StringBuilder();
             for (final Object object : objects) {
@@ -90,7 +103,6 @@ public final class LogUtil {
      * @param objects the objects
      */
     public static void print(final Object ...objects) {
-
         if (objects != null && objects.length > 0) {
             final StringBuilder stringBuilder = new StringBuilder();
             for (final Object object : objects) {

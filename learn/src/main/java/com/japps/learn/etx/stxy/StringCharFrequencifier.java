@@ -8,6 +8,7 @@ package com.japps.learn.etx.stxy;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  * The StringCharFrequencifier.
@@ -30,8 +31,23 @@ public final class StringCharFrequencifier {
 
 		frequencifyChars(str);
 
+		frequencifyCharsByStreams(str);
+
 		scanner.close();
 
+	}
+
+	/**
+	 * Frequencify chars by streams.
+	 *
+	 * @param str the str
+	 */
+	private static void frequencifyCharsByStreams(final String str) {
+
+		System.out.println(
+				str.chars()
+				.mapToObj(c -> (Character) (char) c)
+				.collect(Collectors.counting()));
 	}
 
 	/**

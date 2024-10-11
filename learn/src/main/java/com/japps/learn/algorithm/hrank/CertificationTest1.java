@@ -24,10 +24,10 @@ public final class CertificationTest1 {
         //ImplC.main(null);
 
         try {
-            final Float f1 = new Float("3.0");
-            final int x = f1.intValue();
-            final byte b = f1.byteValue();
-            final double d = f1.doubleValue();
+            final float f1 = Float.parseFloat("3.0");
+            final int x = (int) f1;
+            final byte b = (byte) f1;
+            final double d = (double) f1;
             System.out.println(x + b + d);
         } catch (final NumberFormatException exception) {
             System.out.println("Bad number");
